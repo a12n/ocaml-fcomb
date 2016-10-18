@@ -86,6 +86,12 @@ let big_int ch = Big_int.big_int_of_string (string ch)
 
 let num ch = Num.num_of_string (string ch)
 
+(*$T num
+  Num.equal (num (IO.input_string " -3/4 ")) Num.(of_int (-3) / of_int 4)
+  Num.equal (num (IO.input_string " 12 ")) Num.(of_int 12)
+  try ignore (num (IO.input_string "")); false with End_of_file -> true
+*)
+
 let enum ?n f ch =
   match n with
   | None -> Enum.from_loop 0 (function
