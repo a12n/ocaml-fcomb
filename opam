@@ -1,0 +1,19 @@
+opam-version: "1.2"
+name: "fcomb"
+version: "0.2.0"
+maintainer: "Anton Yabchinskiy"
+authors: "Anton Yabchinskiy"
+homepage: "https://bitbucket.org/a12n/ocaml-fcomb/"
+bug-reports: "https://bitbucket.org/a12n/ocaml-fcomb/issues/"
+license: "MIT"
+dev-repo: "https://bitbucket.org/a12n/ocaml-fcomb/"
+build: [make]
+build-test: [make "test"]
+install: [make "install"]
+remove: [make "uninstall"]
+depends: [
+  "batteries"
+  "ocamlbuild" {build}
+  "ocamlfind" {build}
+  "qtest" {test}
+]
