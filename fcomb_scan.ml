@@ -44,6 +44,17 @@ let char ch = scan_aux ch " %c"
 *)
 
 let float ch = scan_aux ch " %f"
+
+(*$T float
+  Float.approx_equal (Fcomb_scan.float (IO.input_string "-1.")) (-1.0)
+  Float.approx_equal (Fcomb_scan.float (IO.input_string "1")) 1.0
+  Float.approx_equal (Fcomb_scan.float (IO.input_string "1.")) 1.0
+  Float.approx_equal (Fcomb_scan.float (IO.input_string "1.23")) 1.23
+  Float.approx_equal (Fcomb_scan.float (IO.input_string "1e6")) 1e6
+  try ignore (Fcomb_scan.float (IO.input_string "")); false with End_of_file -> true
+  try ignore (Fcomb_scan.float (IO.input_string "a")); false with Error -> true
+*)
+
 let int ch = scan_aux ch " %i"
 
 (*$T int
