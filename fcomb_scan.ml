@@ -125,6 +125,12 @@ let pair f g ch =
   let b = g ch in
   (a, b)
 
+(*$T pair
+  (pair char int (IO.input_string "A 1")) = ('A', 1)
+  (pair char int (IO.input_string "A1")) = ('A', 1)
+  (pair int char (IO.input_string "1 A")) = (1, 'A')
+*)
+
 let triplet f g h ch =
   let a = f ch in
   let b = g ch in
