@@ -106,6 +106,15 @@ let enum ?n f ch =
 
 let array ?n f ch = Array.of_enum (enum ?n f ch)
 
+(*$T array
+  (array char (IO.input_string "A B C")) = [|'A'; 'B'; 'C'|]
+  (array char (IO.input_string "ABC")) = [|'A'; 'B'; 'C'|]
+  (array int (IO.input_string " 1 2 3 ")) = [|1; 2; 3|]
+  (array int (IO.input_string "")) = [||]
+  try ignore (array ~n:1 int (IO.input_string "")); false with End_of_file -> true
+  try ignore (array ~n:2 int (IO.input_string " a b ")); false with Error -> true
+*)
+
 let line f ch = f IO.(input_string (read_line ch))
 
 let list ?n f ch = List.of_enum (enum ?n f ch)
