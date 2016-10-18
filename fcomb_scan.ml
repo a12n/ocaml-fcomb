@@ -29,6 +29,15 @@ let bool ch = scan_aux ch " %B"
 *)
 
 let char ch = scan_aux ch " %c"
+
+(*$T char
+  (char (IO.input_string " a b c ")) = 'a'
+  (char (IO.input_string "123")) = '1'
+  (char (IO.input_string "\n1\n2")) = '1'
+  (char (IO.input_string "abc")) = 'a'
+  try ignore (char (IO.input_string "")); false with End_of_file -> true
+*)
+
 let float ch = scan_aux ch " %f"
 let int ch = scan_aux ch " %i"
 let unit _ch = ()
