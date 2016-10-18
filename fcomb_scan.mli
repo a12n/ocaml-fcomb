@@ -15,12 +15,12 @@ module type S = sig
 
   val array : ?n:int -> 'a scanner -> 'a array scanner
   val enum : ?n:int -> 'a scanner -> 'a Enum.t scanner
-  val hpair : 'a scanner -> ('a * 'a) scanner
-  val htriplet : 'a scanner -> ('a * 'a * 'a) scanner
+  val hpair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
+  val htriplet : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
   val line : 'a scanner -> 'a scanner
   val list : ?n:int -> 'a scanner -> 'a list scanner
-  val pair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
-  val triplet : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
+  val pair : 'a scanner -> ('a * 'a) scanner
+  val triplet : 'a scanner -> ('a * 'a * 'a) scanner
 end
 
 exception Error

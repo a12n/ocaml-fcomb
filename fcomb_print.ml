@@ -18,17 +18,17 @@ module type S = sig
   val enum : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a Enum.t, 'b) printer
   val hpair : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('a * 'a, 'b) printer
+    ('a, 'b) printer -> ('c, 'b) printer -> ('a * 'c, 'b) printer
   val htriplet : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
+    ('a, 'b) printer -> ('c, 'b) printer -> ('d, 'b) printer ->
+    ('a * 'c * 'd, 'b) printer
   val line : ('a, 'b) printer -> ('a, 'b) printer
   val list : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a list, 'b) printer
   val pair : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('c, 'b) printer -> ('a * 'c, 'b) printer
+    ('a, 'b) printer -> ('a * 'a, 'b) printer
   val triplet : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('c, 'b) printer -> ('d, 'b) printer ->
-    ('a * 'c * 'd, 'b) printer
+    ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
 end
 
 module Ch = struct
@@ -56,15 +56,15 @@ module Ch = struct
   let list ?(first="") ?(sep=" ") ?(last="") =
     List.print ~first ~sep ~last
 
-  let pair ?(first="") ?(sep=" ") ?(last="") =
+  let hpair ?(first="") ?(sep=" ") ?(last="") =
     Tuple.Tuple2.print ~first ~sep ~last
 
-  let triplet ?(first="") ?(sep=" ") ?(last="") =
+  let htriplet ?(first="") ?(sep=" ") ?(last="") =
     Tuple.Tuple3.print ~first ~sep ~last
 
-  let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
+  let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
-  let htriplet ?first ?sep ?last f = triplet ?first ?sep ?last f f f
+  let triplet ?first ?sep ?last f = htriplet ?first ?sep ?last f f f
 end
 
 type ('a, 'b) printer = 'a -> unit
@@ -93,12 +93,12 @@ let line f = of_ch (Ch.line (to_ch f))
 let list ?first ?sep ?last f =
   of_ch (Ch.list ?first ?sep ?last (to_ch f))
 
-let pair ?first ?sep ?last f g =
-  of_ch (Ch.pair ?first ?sep ?last (to_ch f) (to_ch g))
+let hpair ?first ?sep ?last f g =
+  of_ch (Ch.hpair ?first ?sep ?last (to_ch f) (to_ch g))
 
-let triplet ?first ?sep ?last f g h =
-  of_ch (Ch.triplet ?first ?sep ?last (to_ch f) (to_ch g) (to_ch h))
+let htriplet ?first ?sep ?last f g h =
+  of_ch (Ch.htriplet ?first ?sep ?last (to_ch f) (to_ch g) (to_ch h))
 
-let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
+let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
-let htriplet ?first ?sep ?last f = triplet ?first ?sep ?last f f f
+let triplet ?first ?sep ?last f = htriplet ?first ?sep ?last f f f

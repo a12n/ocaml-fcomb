@@ -17,12 +17,12 @@ module type S = sig
 
   val array : ?n:int -> 'a scanner -> 'a array scanner
   val enum : ?n:int -> 'a scanner -> 'a Enum.t scanner
-  val hpair : 'a scanner -> ('a * 'a) scanner
-  val htriplet : 'a scanner -> ('a * 'a * 'a) scanner
+  val hpair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
+  val htriplet : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
   val line : 'a scanner -> 'a scanner
   val list : ?n:int -> 'a scanner -> 'a list scanner
-  val pair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
-  val triplet : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
+  val pair : 'a scanner -> ('a * 'a) scanner
+  val triplet : 'a scanner -> ('a * 'a * 'a) scanner
 end
 
 exception Error
@@ -146,26 +146,26 @@ module Ch = struct
 
   let list ?n f ch = List.of_enum (enum ?n f ch)
 
-  let pair f g ch =
+  let hpair f g ch =
     let a = f ch in
     let b = g ch in
     (a, b)
 
-  (*$T pair
-    (pair char int (IO.input_string "A 1")) = ('A', 1)
-    (pair char int (IO.input_string "A1")) = ('A', 1)
-    (pair int char (IO.input_string "1 A")) = (1, 'A')
+  (*$T hpair
+    (hpair char int (IO.input_string "A 1")) = ('A', 1)
+    (hpair char int (IO.input_string "A1")) = ('A', 1)
+    (hpair int char (IO.input_string "1 A")) = (1, 'A')
   *)
 
-  let triplet f g h ch =
+  let htriplet f g h ch =
     let a = f ch in
     let b = g ch in
     let c = h ch in
     (a, b, c)
 
-  let hpair f = pair f f
+  let pair f = hpair f f
 
-  let htriplet f = triplet f f f
+  let triplet f = htriplet f f f
 
   (*$>*)
 end
@@ -187,9 +187,9 @@ let unit = of_ch Ch.unit
 
 let array ?n f = of_ch (Ch.array ?n (to_ch f))
 let enum ?n f = of_ch (Ch.enum ?n (to_ch f))
-let hpair f = of_ch (Ch.hpair (to_ch f))
-let htriplet f = of_ch (Ch.htriplet (to_ch f))
+let hpair f g = of_ch (Ch.hpair (to_ch f) (to_ch g))
+let htriplet f g h = of_ch (Ch.htriplet (to_ch f) (to_ch g) (to_ch h))
 let line f = of_ch (Ch.line (to_ch f))
 let list ?n f = of_ch (Ch.list ?n (to_ch f))
-let pair f g = of_ch (Ch.pair (to_ch f) (to_ch g))
-let triplet f g h = of_ch (Ch.triplet (to_ch f) (to_ch g) (to_ch h))
+let pair f = of_ch (Ch.pair (to_ch f))
+let triplet f = of_ch (Ch.triplet (to_ch f))
