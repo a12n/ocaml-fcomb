@@ -30,61 +30,35 @@ let bit ch = int ch <> 0
 let big_int ch = Big_int.big_int_of_string (string ch)
 let num ch = Num.num_of_string (string ch)
 
-let enum ?(first="") ?(sep="") ?(last="") ?n f ch =
+let enum ?n f ch =
   match n with
   | None -> Enum.from_loop 0 (function
-      | 0 ->
-        scan_literal ch first;
-        f ch, 1
-      | i -> (
-          try
-            scan_literal ch sep;
-            f ch, i + 1
-          with Error ->
-            scan_literal ch last;
-            raise Enum.No_more_elements
-        )
+      | 0 -> f ch, 1
+      | i -> f ch, i + 1
     )
   | Some n -> Enum.init n (function
-      | 0 ->
-        scan_literal ch first;
-        f ch
-      | i when i = (n - 1) ->
-        scan_literal ch sep;
-        let elt = f ch in
-        scan_literal ch last;
-        elt
-      | i ->
-        scan_literal ch sep;
-        f ch
+      | 0 -> f ch
+      | i when i = (n - 1) -> f ch
+      | i -> f ch
     )
 
-let array ?first ?sep ?last ?n f ch =
-  Array.of_enum (enum ?first ?sep ?last ?n f ch)
+let array ?n f ch = Array.of_enum (enum ?n f ch)
 
 let line f ch = f IO.(input_string (read_line ch))
 
-let list ?first ?sep ?last ?n f ch =
-  List.of_enum (enum ?first ?sep ?last ?n f ch)
+let list ?n f ch = List.of_enum (enum ?n f ch)
 
-let pair ?(first="") ?(sep="") ?(last="") f g ch =
-  scan_literal ch first;
+let pair f g ch =
   let a = f ch in
-  scan_literal ch sep;
   let b = g ch in
-  scan_literal ch last;
   (a, b)
 
-let triplet ?(first="") ?(sep="") ?(last="") f g h ch =
-  scan_literal ch first;
+let triplet f g h ch =
   let a = f ch in
-  scan_literal ch sep;
   let b = g ch in
-  scan_literal ch sep;
   let c = h ch in
-  scan_literal ch last;
   (a, b, c)
 
-let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
+let hpair f = pair f f
 
-let htriplet ?first ?sep ?last f = triplet ?first ?sep ?last f f f
+let htriplet f = triplet f f f
