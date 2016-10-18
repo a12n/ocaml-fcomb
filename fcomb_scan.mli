@@ -1,4 +1,7 @@
-type 'a scanner = in_channel -> 'a
+open Batteries
+
+
+type 'a scanner = IO.input -> 'a
 
 
 exception Error
