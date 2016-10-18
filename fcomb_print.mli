@@ -26,6 +26,9 @@ val unit : (unit, 'a) printer
 val array : ?first:string -> ?sep:string -> ?last:string ->
   ('a, 'b) printer -> ('a array, 'b) printer
 
+val enum : ?first:string -> ?sep:string -> ?last:string ->
+  ('a, 'b) printer -> ('a Enum.t, 'b) printer
+
 val hpair : ?first:string -> ?sep:string -> ?last:string ->
   ('a, 'b) printer -> ('a * 'a, 'b) printer
 

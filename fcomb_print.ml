@@ -18,6 +18,9 @@ let iter_aux sep f ch i v = if i > 0 then string ch sep; f ch v
 let array ?(first="") ?(sep=" ") ?(last="") =
   Array.print ~first ~sep ~last
 
+let enum ?(first="") ?(sep=" ") ?(last="") =
+  Enum.print ~first ~sep ~last
+
 let line f ch a = f ch a; char ch '\n'
 
 let list ?(first="") ?(sep=" ") ?(last="") =
