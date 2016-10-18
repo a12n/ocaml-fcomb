@@ -19,6 +19,11 @@ let string ch =
   | "" -> raise Error
   | str -> str
 
+(*$T string
+  (string (IO.input_string " \n \nxyz ")) = "xyz"
+  try ignore (string (IO.input_string "")); false with End_of_file -> true
+*)
+
 let bool ch = scan_aux ch " %B"
 
 (*$T bool
