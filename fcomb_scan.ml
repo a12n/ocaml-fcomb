@@ -9,7 +9,8 @@ let scan_aux ch fmt =
   with (Scanf.Scan_failure _) -> raise Error
      | IO.Input_closed -> raise Error
 
-let scan_literal ch str = scan_aux ch (Scanf.format_from_string str "%s")
+let scan_literal ch str =
+  scan_aux ch (Scanf.format_from_string str "") ()
 
 let string ch =
   match scan_aux ch " %s" with
@@ -31,28 +32,28 @@ let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch =
   match n with
   | None -> Enum.from_loop 0 (function
       | 0 ->
-        ignore (scan_literal ch first);
+        scan_literal ch first;
         f ch, 1
       | i -> (
           try
-            ignore (scan_literal ch sep);
+            scan_literal ch sep;
             f ch, i + 1
           with Error ->
-            ignore (scan_literal ch last);
+            scan_literal ch last;
             raise Enum.No_more_elements
         )
     )
   | Some n -> Enum.init n (function
       | 0 ->
-        ignore (scan_literal ch first);
+        scan_literal ch first;
         f ch
       | i when i = (n - 1) ->
-        ignore (scan_literal ch sep);
+        scan_literal ch sep;
         let elt = f ch in
-        ignore (scan_literal ch last);
+        scan_literal ch last;
         elt
       | i ->
-        ignore (scan_literal ch sep);
+        scan_literal ch sep;
         f ch
     )
 
@@ -65,21 +66,21 @@ let list ?first ?sep ?last ?n f ch =
   List.of_enum (enum ?first ?sep ?last ?n f ch)
 
 let pair ?(first=" ") ?(sep=" ") ?(last=" ") f g ch =
-  ignore (scan_literal ch first);
+  scan_literal ch first;
   let a = f ch in
-  ignore (scan_literal ch sep);
+  scan_literal ch sep;
   let b = g ch in
-  ignore (scan_literal ch last);
+  scan_literal ch last;
   (a, b)
 
 let triplet ?(first=" ") ?(sep=" ") ?(last=" ") f g h ch =
-  ignore (scan_literal ch first);
+  scan_literal ch first;
   let a = f ch in
-  ignore (scan_literal ch sep);
+  scan_literal ch sep;
   let b = g ch in
-  ignore (scan_literal ch sep);
+  scan_literal ch sep;
   let c = h ch in
-  ignore (scan_literal ch last);
+  scan_literal ch last;
   (a, b, c)
 
 let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
