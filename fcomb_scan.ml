@@ -56,11 +56,13 @@ let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch =
         f ch
     )
 
-(* val array : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a array t *)
+let array ?first ?sep ?last ?n f ch =
+  Array.of_enum (enum ?first ?sep ?last ?n f ch)
 
 let line f ch = f IO.(input_string (read_line ch))
 
-(* val list : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a list t *)
+let list ?first ?sep ?last ?n f ch =
+  List.of_enum (enum ?first ?sep ?last ?n f ch)
 
 let pair ?(first=" ") ?(sep=" ") ?(last=" ") f g ch =
   ignore (scan_literal ch first);
