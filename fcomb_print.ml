@@ -19,7 +19,7 @@ module type S = sig
     ('a, 'b) printer -> ('a Enum.t, 'b) printer
   val hpair : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('c, 'b) printer -> ('a * 'c, 'b) printer
-  val htriplet : ?first:string -> ?sep:string -> ?last:string ->
+  val htriple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('c, 'b) printer -> ('d, 'b) printer ->
     ('a * 'c * 'd, 'b) printer
   val line : ('a, 'b) printer -> ('a, 'b) printer
@@ -27,7 +27,7 @@ module type S = sig
     ('a, 'b) printer -> ('a list, 'b) printer
   val pair : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a, 'b) printer
-  val triplet : ?first:string -> ?sep:string -> ?last:string ->
+  val triple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
 end
 
@@ -59,12 +59,12 @@ module Ch = struct
   let hpair ?(first="") ?(sep=" ") ?(last="") =
     Tuple.Tuple2.print ~first ~sep ~last
 
-  let htriplet ?(first="") ?(sep=" ") ?(last="") =
+  let htriple ?(first="") ?(sep=" ") ?(last="") =
     Tuple.Tuple3.print ~first ~sep ~last
 
   let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
-  let triplet ?first ?sep ?last f = htriplet ?first ?sep ?last f f f
+  let triple ?first ?sep ?last f = htriple ?first ?sep ?last f f f
 end
 
 type ('a, 'b) printer = 'a -> unit
@@ -96,9 +96,9 @@ let list ?first ?sep ?last f =
 let hpair ?first ?sep ?last f g =
   of_ch (Ch.hpair ?first ?sep ?last (to_ch f) (to_ch g))
 
-let htriplet ?first ?sep ?last f g h =
-  of_ch (Ch.htriplet ?first ?sep ?last (to_ch f) (to_ch g) (to_ch h))
+let htriple ?first ?sep ?last f g h =
+  of_ch (Ch.htriple ?first ?sep ?last (to_ch f) (to_ch g) (to_ch h))
 
 let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
-let triplet ?first ?sep ?last f = htriplet ?first ?sep ?last f f f
+let triple ?first ?sep ?last f = htriple ?first ?sep ?last f f f
