@@ -58,6 +58,14 @@ let unit _ch = ()
 
 let bit ch = int ch <> 0
 
+(*$T bit
+  (bit (IO.input_string " -5 ")) = true
+  (bit (IO.input_string " 0 ")) = false
+  (bit (IO.input_string " 1 ")) = true
+  (bit (IO.input_string " 134 ")) = true
+  try ignore (bit (IO.input_string "")); false with End_of_file -> true
+*)
+
 let big_int ch = Big_int.big_int_of_string (string ch)
 let num ch = Num.num_of_string (string ch)
 
