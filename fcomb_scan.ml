@@ -1,4 +1,6 @@
+(*${*)
 open Batteries
+(*$}*)
 
 type 'a scanner = IO.input -> 'a
 
