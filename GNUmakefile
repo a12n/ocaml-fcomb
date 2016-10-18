@@ -3,7 +3,7 @@ OCAMLBUILD_FLAGS += -use-ocamlfind
 
 LIB = fcomb
 
-.PHONY: clean install lib lib-byte lib-native uninstall utop
+.PHONY: clean install lib lib-byte lib-native test uninstall utop
 
 lib: lib-byte lib-native
 
@@ -15,6 +15,12 @@ lib-native:
 
 clean:
 	ocamlbuild ${OCAMLBUILD_FLAGS} -clean
+
+test: fcomb_scan_tests.byte
+	@for test in $^; do	\
+		echo ==== $$test ====;	\
+		./$$test --slow 5;	\
+	done
 
 utop: lib-byte
 	utop -I _build -safe-string
