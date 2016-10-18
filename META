@@ -1,0 +1,5 @@
+description = "Utilities for simple formatted input/output"
+version = "0.0.1"
+requires = "batteries"
+archive(byte) = "fcomb.cma"
+archive(native) = "fcomb.cmxa"
