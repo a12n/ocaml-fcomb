@@ -67,6 +67,12 @@ let bit ch = int ch <> 0
 *)
 
 let big_int ch = Big_int.big_int_of_string (string ch)
+
+(*$T big_int
+  Big_int.equal (big_int (IO.input_string " -5 ")) Big_int.(of_int (-5))
+  try ignore (big_int (IO.input_string "")); false with End_of_file -> true
+*)
+
 let num ch = Num.num_of_string (string ch)
 
 let enum ?n f ch =
