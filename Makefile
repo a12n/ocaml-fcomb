@@ -31,3 +31,16 @@ install: lib
 
 uninstall:
 	ocamlfind remove ${LIB}
+
+
+%.byte: %.ml
+	ocamlbuild ${OCAMLBUILD_FLAGS} $@
+
+%.d.byte: %.ml
+	ocamlbuild ${OCAMLBUILD_FLAGS} $@
+
+%.native: %.ml
+	ocamlbuild ${OCAMLBUILD_FLAGS} $@
+
+%_tests.ml: %.ml
+	qtest -o $@ extract $<
