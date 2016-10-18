@@ -20,6 +20,14 @@ let string ch =
   | str -> str
 
 let bool ch = scan_aux ch " %B"
+
+(*$T bool
+  (bool (IO.input_string "false")) = false
+  (bool (IO.input_string "true")) = true
+  try ignore (bool (IO.input_string "")); false with End_of_file -> true
+  try ignore (bool (IO.input_string "0")); false with Error -> true
+*)
+
 let char ch = scan_aux ch " %c"
 let float ch = scan_aux ch " %f"
 let int ch = scan_aux ch " %i"
