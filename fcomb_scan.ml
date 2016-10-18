@@ -27,8 +27,34 @@ let bit ch = int ch <> 0
 let big_int ch = Big_int.big_int_of_string (string ch)
 let num ch = Num.num_of_string (string ch)
 
-(* let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch = *)
-
+let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch =
+  match n with
+  | None -> Enum.from_loop 0 (function
+      | 0 ->
+        ignore (scan_literal ch first);
+        f ch, 1
+      | i -> (
+          try
+            ignore (scan_literal ch sep);
+            f ch, i + 1
+          with Error ->
+            ignore (scan_literal ch last);
+            raise Enum.No_more_elements
+        )
+    )
+  | Some n -> Enum.init n (function
+      | 0 ->
+        ignore (scan_literal ch first);
+        f ch
+      | i when i = (n - 1) ->
+        ignore (scan_literal ch sep);
+        let elt = f ch in
+        ignore (scan_literal ch last);
+        elt
+      | i ->
+        ignore (scan_literal ch sep);
+        f ch
+    )
 
 (* val array : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a array t *)
 
