@@ -1,11 +1,13 @@
-type 'a t = in_channel -> 'a
+open Batteries
+
+type 'a scanner = IO.input -> 'a
 
 exception Error
 
 let scan_aux ch fmt =
-  try Scanf.bscanf (Scanf.Scanning.from_channel ch) fmt (fun v -> v)
+  try Scanf.bscanf (Scanf.Scanning.from_input ch) fmt (fun v -> v)
   with (Scanf.Scan_failure _) -> raise Error
-     | End_of_file -> raise Error
+     | IO.Input_closed -> raise Error
 
 let string ch =
   match scan_aux ch " %s" with
