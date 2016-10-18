@@ -28,7 +28,7 @@ let bit ch = int ch <> 0
 let big_int ch = Big_int.big_int_of_string (string ch)
 let num ch = Num.num_of_string (string ch)
 
-let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch =
+let enum ?(first="") ?(sep="") ?(last="") ?n f ch =
   match n with
   | None -> Enum.from_loop 0 (function
       | 0 ->
@@ -65,7 +65,7 @@ let line f ch = f IO.(input_string (read_line ch))
 let list ?first ?sep ?last ?n f ch =
   List.of_enum (enum ?first ?sep ?last ?n f ch)
 
-let pair ?(first=" ") ?(sep=" ") ?(last=" ") f g ch =
+let pair ?(first="") ?(sep="") ?(last="") f g ch =
   scan_literal ch first;
   let a = f ch in
   scan_literal ch sep;
@@ -73,7 +73,7 @@ let pair ?(first=" ") ?(sep=" ") ?(last=" ") f g ch =
   scan_literal ch last;
   (a, b)
 
-let triplet ?(first=" ") ?(sep=" ") ?(last=" ") f g h ch =
+let triplet ?(first="") ?(sep="") ?(last="") f g h ch =
   scan_literal ch first;
   let a = f ch in
   scan_literal ch sep;
