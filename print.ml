@@ -1,4 +1,4 @@
-type 'a t = out_channel -> 'a -> unit
+type 'a printer = out_channel -> 'a -> unit
 
 let char = output_char
 let string = output_string
