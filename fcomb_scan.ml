@@ -16,7 +16,7 @@ let scan_literal ch str =
 
 let string ch =
   match scan_aux ch " %s" with
-  | "" -> raise Error
+  | "" -> raise End_of_file
   | str -> str
 
 (*$T string
