@@ -58,7 +58,7 @@ let enum ?(first=" ") ?(sep=" ") ?(last=" ") ?n f ch =
 
 (* val array : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a array t *)
 
-let line f ch = f (IO.input_string (IO.read_line ch))
+let line f ch = f IO.(input_string (read_line ch))
 
 (* val list : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a list t *)
 
