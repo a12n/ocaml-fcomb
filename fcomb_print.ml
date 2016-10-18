@@ -1,39 +1,34 @@
-type 'a printer = out_channel -> 'a -> unit
+open Batteries
 
-let char = output_char
-let string = output_string
+type ('a, 'b) printer = ('a, 'b) IO.printer
 
-let big_int out n = string out (Big_int.string_of_big_int n)
-let bit out b = char out (if b then '1' else '0')
-let bool out b = string out (string_of_bool b)
-let float out x = string out (string_of_float x)
-let int out n = string out (string_of_int n)
-let num out q = string out (Num.string_of_num q)
-let unit _out () = ()
+let char = IO.write
+let string = IO.nwrite
 
-let iter_aux sep f out i v = if i > 0 then string out sep; f out v
+let big_int = Big_int.print
+let bit ch b = char ch (if b then '1' else '0')
+let bool = Bool.print
+let float = Float.print
+let int = Int.print
+let num = Num.print
+let unit _ch () = ()
 
-let array ?(first="") ?(sep=" ") ?(last="") f out arr =
-  string out first;
-  Array.iteri (iter_aux sep f out) arr;
-  string out last
+let iter_aux sep f ch i v = if i > 0 then string ch sep; f ch v
 
-let line f out a = f out a; char out '\n'
+let array ?(first="") ?(sep=" ") ?(last="") =
+  Array.print ~first ~sep ~last
 
-let list ?(first="") ?(sep=" ") ?(last="") f out list =
-  string out first;
-  List.iteri (iter_aux sep f out) list;
-  string out last
+let line f ch a = f ch a; char ch '\n'
 
-let pair ?(first="") ?(sep=" ") ?(last="") f g out (a, b) =
-  string out first;
-  f out a; string out sep; g out b;
-  string out last
+let list ?(first="") ?(sep=" ") ?(last="") =
+  List.print ~first ~sep ~last
 
-let triplet ?(first="") ?(sep=" ") ?(last="") f g h out (a, b, c) =
-  string out first;
-  f out a; string out sep; g out b; string out sep; h out c;
-  string out last
+let pair ?(first="") ?(sep=" ") ?(last="") =
+  Tuple.Tuple2.print ~first ~sep ~last
+
+let triplet ?(first="") ?(sep=" ") ?(last="") =
+  Tuple.Tuple3.print ~first ~sep ~last
 
 let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
+
 let htriplet ?first ?sep ?last f = triplet ?first ?sep ?last f f f
