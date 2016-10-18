@@ -29,6 +29,9 @@ val unit : unit scanner
 val array : ?first:string -> ?sep:string -> ?last:string -> ?n:int ->
   'a scanner -> 'a array scanner
 
+val enum : ?first:string -> ?sep:string -> ?last:string -> ?n:int ->
+  'a scanner -> 'a Enum.t scanner
+
 val hpair : ?first:string -> ?sep:string -> ?last:string ->
   'a scanner -> ('a * 'a) scanner
 
