@@ -31,8 +31,6 @@ let num ch = Num.num_of_string (string ch)
 
 
 (* val array : ?first:string -> ?sep:string -> ?last:string -> ?n:int -> 'a t -> 'a array t *)
-(* val hpair : ?first:string -> ?sep:string -> ?last:string -> 'a t -> ('a * 'a) t *)
-(* val htriplet : ?first:string -> ?sep:string -> ?last:string -> 'a t -> ('a * 'a * 'a) t *)
 
 let line f ch = f (IO.input_string (IO.read_line ch))
 
@@ -55,3 +53,7 @@ let triplet ?(first=" ") ?(sep=" ") ?(last=" ") f g h ch =
   let c = h ch in
   ignore (scan_literal ch last);
   (a, b, c)
+
+let hpair ?first ?sep ?last f = pair ?first ?sep ?last f f
+
+let htriplet ?first ?sep ?last f = triplet ?first ?sep ?last f f f
