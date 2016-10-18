@@ -40,6 +40,15 @@ let char ch = scan_aux ch " %c"
 
 let float ch = scan_aux ch " %f"
 let int ch = scan_aux ch " %i"
+
+(*$T int
+  (int (IO.input_string " -5 ")) = (-5)
+  (int (IO.input_string " 0b101 ")) = 5
+  (int (IO.input_string " 0x10 ")) = 16
+  (int (IO.input_string "1")) = 1
+  try ignore (int (IO.input_string "")); false with End_of_file -> true
+*)
+
 let unit _ch = ()
 
 let bit ch = int ch <> 0
