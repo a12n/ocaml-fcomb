@@ -94,9 +94,10 @@ let num ch = Num.num_of_string (string ch)
 
 let enum ?n f ch =
   match n with
-  | None -> Enum.from_loop 0 (function
-      | 0 -> f ch, 1
-      | i -> f ch, i + 1
+  | None -> Enum.from (fun () ->
+      try
+        f ch
+      with Error | End_of_file -> raise Enum.No_more_elements
     )
   | Some n -> Enum.init n (function
       | 0 -> f ch
