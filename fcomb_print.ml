@@ -1,4 +1,6 @@
+(*${*)
 open Batteries
+(*$}*)
 
 module type S = sig
   type ('a, 'b) printer
@@ -32,6 +34,8 @@ module type S = sig
 end
 
 module Ch = struct
+  (*$< Ch *)
+
   type ('a, 'b) printer = ('a, 'b) IO.printer
 
   let char = IO.write
@@ -48,6 +52,11 @@ module Ch = struct
       let fmt = Scanf.format_from_string
           ("%." ^ (string_of_int k) ^ "f") "%f" in
       Printf.fprintf ch fmt
+  (*$= float
+    (let ch = IO.output_string () in float ~k:0 ch 1.23456; IO.close_out ch) "1"
+    (let ch = IO.output_string () in float ~k:3 ch 1.23456; IO.close_out ch) "1.235"
+    (let ch = IO.output_string () in float ~k:4 ch 1.23456; IO.close_out ch) "1.2346"
+  *)
   let int = Int.print
   let num = Num.print
   let unit _ch () = ()
@@ -72,6 +81,8 @@ module Ch = struct
   let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
   let triple ?first ?sep ?last f = htriple ?first ?sep ?last f f f
+
+  (*$>*)
 end
 
 type ('a, 'b) printer = 'a -> unit
