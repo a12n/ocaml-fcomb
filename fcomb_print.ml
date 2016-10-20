@@ -7,7 +7,7 @@ module type S = sig
   val bit : (bool, 'a) printer
   val bool : (bool, 'a) printer
   val char : (char, 'a) printer
-  val float : (float, 'a) printer
+  val float : ?k:int -> (float, 'a) printer
   val int : (int, 'a) printer
   val num : (Num.num, 'a) printer
   val string : (string, 'a) printer
@@ -40,7 +40,14 @@ module Ch = struct
   let big_int = Big_int.print
   let bit ch b = char ch (if b then '1' else '0')
   let bool = Bool.print
-  let float = Float.print
+  let float ?k ch =
+    match k with
+    | None -> Float.print ch
+    | Some k ->
+      assert (k >= 0 && k < 16);
+      let fmt = Scanf.format_from_string
+          ("%." ^ (string_of_int k) ^ "f") "%f" in
+      Printf.fprintf ch fmt
   let int = Int.print
   let num = Num.print
   let unit _ch () = ()
@@ -76,7 +83,7 @@ let big_int = of_ch Ch.big_int
 let bit = of_ch Ch.bit
 let bool = of_ch Ch.bool
 let char = of_ch Ch.char
-let float = of_ch Ch.float
+let float ?k = of_ch (Ch.float ?k)
 let int = of_ch Ch.int
 let num = of_ch Ch.num
 let string = of_ch Ch.string

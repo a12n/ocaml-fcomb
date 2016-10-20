@@ -7,7 +7,7 @@ module type S = sig
   val bit : (bool, 'a) printer
   val bool : (bool, 'a) printer
   val char : (char, 'a) printer
-  val float : (float, 'a) printer
+  val float : ?k:int -> (float, 'a) printer
   val int : (int, 'a) printer
   val num : (Num.num, 'a) printer
   val string : (string, 'a) printer
