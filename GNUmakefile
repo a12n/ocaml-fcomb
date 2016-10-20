@@ -16,7 +16,7 @@ lib-native:
 clean:
 	ocamlbuild ${OCAMLBUILD_FLAGS} -clean
 
-test: fcomb_scan_tests.byte
+test: fcomb_print_tests.byte fcomb_scan_tests.byte
 	@for test in $^; do	\
 		echo ==== $$test ====;	\
 		./$$test --slow 5;	\
