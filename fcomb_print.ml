@@ -20,13 +20,13 @@ module type S = sig
   val enum : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a Enum.t, 'b) printer
   val hpair : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('c, 'b) printer -> ('a * 'c, 'b) printer
+    ('a, 'c) printer -> ('b, 'c) printer -> ('a * 'b, 'c) printer
   val hquad : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'e) printer -> ('b, 'e) printer -> ('c, 'e) printer -> ('d, 'e) printer ->
     ('a * 'b * 'c * 'd, 'e) printer
   val htriple : ?first:string -> ?sep:string -> ?last:string ->
-    ('a, 'b) printer -> ('c, 'b) printer -> ('d, 'b) printer ->
-    ('a * 'c * 'd, 'b) printer
+    ('a, 'd) printer -> ('b, 'd) printer -> ('c, 'd) printer ->
+    ('a * 'b * 'c, 'd) printer
   val line : ('a, 'b) printer -> ('a, 'b) printer
   val list : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a list, 'b) printer
