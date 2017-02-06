@@ -19,6 +19,9 @@ module type S = sig
     ('a, 'b) printer -> ('a Enum.t, 'b) printer
   val hpair : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('c, 'b) printer -> ('a * 'c, 'b) printer
+  val hquad : ?first:string -> ?sep:string -> ?last:string ->
+    ('a, 'e) printer -> ('b, 'e) printer -> ('c, 'e) printer -> ('d, 'e) printer ->
+    ('a * 'b * 'c * 'd, 'e) printer
   val htriple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('c, 'b) printer -> ('d, 'b) printer ->
     ('a * 'c * 'd, 'b) printer
@@ -27,6 +30,8 @@ module type S = sig
     ('a, 'b) printer -> ('a list, 'b) printer
   val pair : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a, 'b) printer
+  val quad : ?first:string -> ?sep:string -> ?last:string ->
+    ('a, 'b) printer -> ('a * 'a * 'a * 'a, 'b) printer
   val triple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
 end
