@@ -15,6 +15,7 @@ lib-native:
 
 clean:
 	ocamlbuild ${OCAMLBUILD_FLAGS} -clean
+	${RM} qtest.targets.log
 
 test: fcomb_print_tests.byte fcomb_scan_tests.byte
 	@for test in $^; do	\
