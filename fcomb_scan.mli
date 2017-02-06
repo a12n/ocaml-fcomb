@@ -16,10 +16,12 @@ module type S = sig
   val array : ?n:int -> 'a scanner -> 'a array scanner
   val enum : ?n:int -> 'a scanner -> 'a Enum.t scanner
   val hpair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
+  val hquad : 'a scanner -> 'b scanner -> 'c scanner -> 'd scanner -> ('a * 'b * 'c * 'd) scanner
   val htriple : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
   val line : 'a scanner -> 'a scanner
   val list : ?n:int -> 'a scanner -> 'a list scanner
   val pair : 'a scanner -> ('a * 'a) scanner
+  val quad : 'a scanner -> ('a * 'a * 'a * 'a) scanner
   val triple : 'a scanner -> ('a * 'a * 'a) scanner
 end
 
