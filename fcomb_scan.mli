@@ -31,4 +31,5 @@ exception Error
 module Ch : S with type 'a scanner = IO.input -> 'a
 
 (** Scan from standard input channel. *)
+(* XXX: line doesn't work *)
 include S with type 'a scanner = unit -> 'a
