@@ -18,7 +18,6 @@ module type S = sig
   val hpair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
   val hquad : 'a scanner -> 'b scanner -> 'c scanner -> 'd scanner -> ('a * 'b * 'c * 'd) scanner
   val htriple : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
-  val line : 'a scanner -> 'a scanner
   val list : ?n:int -> 'a scanner -> 'a list scanner
   val pair : 'a scanner -> ('a * 'a) scanner
   val quad : 'a scanner -> ('a * 'a * 'a * 'a) scanner
@@ -28,8 +27,10 @@ end
 exception Error
 
 (** Scan from a channel. *)
-module Ch : S with type 'a scanner = IO.input -> 'a
+module Ch : sig
+  include S with type 'a scanner = IO.input -> 'a
+  val line : 'a scanner -> 'a scanner
+end
 
 (** Scan from standard input channel. *)
-(* XXX: line doesn't work *)
 include S with type 'a scanner = unit -> 'a

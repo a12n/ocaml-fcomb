@@ -20,7 +20,6 @@ module type S = sig
   val hpair : 'a scanner -> 'b scanner -> ('a * 'b) scanner
   val hquad : 'a scanner -> 'b scanner -> 'c scanner -> 'd scanner -> ('a * 'b * 'c * 'd) scanner
   val htriple : 'a scanner -> 'b scanner -> 'c scanner -> ('a * 'b * 'c) scanner
-  val line : 'a scanner -> 'a scanner
   val list : ?n:int -> 'a scanner -> 'a list scanner
   val pair : 'a scanner -> ('a * 'a) scanner
   val quad : 'a scanner -> ('a * 'a * 'a * 'a) scanner
@@ -201,7 +200,6 @@ let enum ?n f = of_ch (Ch.enum ?n (to_ch f))
 let hpair f g = of_ch (Ch.hpair (to_ch f) (to_ch g))
 let hquad f g h i = of_ch (Ch.hquad (to_ch f) (to_ch g) (to_ch h) (to_ch i))
 let htriple f g h = of_ch (Ch.htriple (to_ch f) (to_ch g) (to_ch h))
-let line f = of_ch (Ch.line (to_ch f)) (* XXX *)
 let list ?n f = of_ch (Ch.list ?n (to_ch f))
 let pair f = of_ch (Ch.pair (to_ch f))
 let quad f = of_ch (Ch.quad (to_ch f))
