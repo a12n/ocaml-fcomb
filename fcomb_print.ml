@@ -34,6 +34,8 @@ module type S = sig
     ('a, 'b) printer -> ('a * 'a, 'b) printer
   val quad : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a * 'a, 'b) printer
+  val set : ?first:string -> ?sep:string -> ?last:string ->
+    ('a, 'b) printer -> ('a Set.t, 'b) printer
   val triple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
 end
@@ -90,6 +92,8 @@ module Ch = struct
 
   let quad ?first ?sep ?last f = hquad ?first ?sep ?last f f f f
 
+  let set ?(first="") ?(sep=" ") ?(last="") = Set.print ~first ~sep ~last
+
   let triple ?first ?sep ?last f = htriple ?first ?sep ?last f f f
 
   (*$>*)
@@ -133,5 +137,8 @@ let htriple ?first ?sep ?last f g h =
 let pair ?first ?sep ?last f = hpair ?first ?sep ?last f f
 
 let quad ?first ?sep ?last f = hquad ?first ?sep ?last f f f f
+
+let set ?first ?sep ?last f =
+  of_ch (Ch.set ?first ?sep ?last (to_ch f))
 
 let triple ?first ?sep ?last f = htriple ?first ?sep ?last f f f

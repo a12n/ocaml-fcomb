@@ -23,6 +23,7 @@ module type S = sig
   val list : ?n:int -> 'a scanner -> 'a list scanner
   val pair : 'a scanner -> ('a * 'a) scanner
   val quad : 'a scanner -> ('a * 'a * 'a * 'a) scanner
+  val set : ?n:int -> 'a scanner -> 'a Set.t scanner
   val triple : 'a scanner -> ('a * 'a * 'a) scanner
 end
 
@@ -175,6 +176,8 @@ module Ch = struct
 
   let quad f = hquad f f f f
 
+  let set ?n f ch = Set.of_enum (enum ?n f ch)
+
   let triple f = htriple f f f
 
   (*$>*)
@@ -203,4 +206,5 @@ let htriple f g h = of_ch (Ch.htriple (to_ch f) (to_ch g) (to_ch h))
 let list ?n f = of_ch (Ch.list ?n (to_ch f))
 let pair f = of_ch (Ch.pair (to_ch f))
 let quad f = of_ch (Ch.quad (to_ch f))
+let set ?n f = of_ch (Ch.set ?n (to_ch f))
 let triple f = of_ch (Ch.triple (to_ch f))

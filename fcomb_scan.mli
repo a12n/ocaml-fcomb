@@ -21,6 +21,7 @@ module type S = sig
   val list : ?n:int -> 'a scanner -> 'a list scanner
   val pair : 'a scanner -> ('a * 'a) scanner
   val quad : 'a scanner -> ('a * 'a * 'a * 'a) scanner
+  val set : ?n:int -> 'a scanner -> 'a Set.t scanner
   val triple : 'a scanner -> ('a * 'a * 'a) scanner
 end
 

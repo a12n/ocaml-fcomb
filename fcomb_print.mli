@@ -32,6 +32,8 @@ module type S = sig
     ('a, 'b) printer -> ('a * 'a, 'b) printer
   val quad : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a * 'a, 'b) printer
+  val set : ?first:string -> ?sep:string -> ?last:string ->
+    ('a, 'b) printer -> ('a Set.t, 'b) printer
   val triple : ?first:string -> ?sep:string -> ?last:string ->
     ('a, 'b) printer -> ('a * 'a * 'a, 'b) printer
 end
